@@ -24,3 +24,5 @@ with open('data', "r") as fdname:
         with open('solution', "a") as fsname:
                 fsname.write("%i\n" % (i))
                 i+=1
+
+
