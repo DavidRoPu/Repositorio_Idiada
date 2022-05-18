@@ -2,18 +2,20 @@
 # David Romero Puyal
 # davidrompuy99@gmail.com
 # 679034125
-# SOLUTION V0
+# SOLUTION V1
 
 
 nrovers = 0                 # Variable to store the rovers number (according to the result of the function num_rovers).
+solution_file = "solution"  # Name of the solution file where de result has to be store.
+data_file = "data"          # Name of the data input file.
 
 
-# Function for calculate the number of rovers reading from data file.
+# Function for calculate the number of rovers.
 def num_rovers():
-    with open("data", "r") as fdname:
+    with open(data_file, "r") as fdname:
         nrov = len(fdname.readlines())
         if nrov % 2 != 1:
-            print("ERROR, Number of lines Wrong") # 2 lines x rover + 1 line of grid
+            raise Exception("Number of lines Wrong")
         else:
             return int((nrov - 1)/2)
 
@@ -56,19 +58,19 @@ def move(x, y, ori, plateau):
     if ori == 'N':
         y += 1
         if y > plateau.ymax:
-            x = 'X'
+            raise Exception("Rovert Outside Plateau North Direction")
     elif ori == 'E':
         x += 1
         if x > plateau.xmax:
-            x = 'X'
+            raise Exception("Rovert Outside Plateau Est Direction")
     elif ori == 'S':
         y -= 1
         if y < plateau.ymin:
-            x = 'X'
+            raise Exception("Rovert Outside Plateau South Direction")
     elif ori == 'W':
         x -= 1
         if x < plateau.xmin:
-            x = 'X'
+            raise Exception("Rovert Outside Plateau West Direction")
     return x, y
 
 
@@ -89,16 +91,14 @@ def solution(rovers):
             for command in rover_instruction:    # For every letter of rover instruction string...
                 if command == "M":
                     x, y = move(x, y, orientation, plateau)     # M -> move
-                    if x == 'X':
-                        print("ERROR MOVE FUNCTION")
                 elif command == "L":
                     orientation = rotate_left(orientation)      # L -> Rotate Left
                 elif command == "R":
                     orientation = rotate_right(orientation)     # R -> Rotate Right
                 else:
-                    print("Not valid rover instruction")  # If wrong letter
+                    raise Exception("Not valid rover instruction")  # If wrong letter
 
-            with open("solution", 'a') as fsol:  # Store in the solution file the final coordinates and orientation.
+            with open(solution_file, 'a') as fsol:  # Store in the solution file the final coordinates and orientation.
                 fsol.write("%s %s %s\n" % (x, y, orientation))
 
             actual_rover = actual_rover + 1
@@ -106,6 +106,6 @@ def solution(rovers):
 
 if __name__ == "__main__":
     nrovers = num_rovers()   # Obtain number of rovers.
-    with open("solution", "w") as fsname: # Clean solution file and writte a tittle
+    with open(solution_file, "w") as fsname:
         fsname.write('OUTPUT\n')
     solution(nrovers)
