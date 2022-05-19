@@ -8,23 +8,19 @@
 import unittest
 from Solution_Final import Plateau
 from Solution_Final import num_rovers
-from Solution_Final import rotate_right
-from Solution_Final import rotate_left
+from Solution_Final import rotate
 from Solution_Final import move
-
 
 
 #FUNCTIONS TESTS
 
-class Tests_Rotate_Right(unittest.TestCase):
-    def test_1_rotate_right(self):
-        result = rotate_right('N')
-        self.assertEqual(result, 'E')
-
-class Tests_Rotate_Left(unittest.TestCase):
-    def test_1_rotate_right(self):
-        result = rotate_left('N')
+class Tests_Rotate(unittest.TestCase):
+    def test_1_rotate_left(self):
+        result = rotate('N','L')
         self.assertEqual(result, 'W')
+    def test_1_rotate_right(self):
+        result = rotate('N','R')
+        self.assertEqual(result, 'E')
 
 class Tests_move(unittest.TestCase):
     plateau = Plateau(5, 5)

@@ -2,7 +2,7 @@
 # David Romero Puyal
 # davidrompuy99@gmail.com
 # 679034125
-# SOLUTION V1
+# FINAL SOLUTION
 
 
 nrovers = 0                 # Variable to store the rovers number (according to the result of the function num_rovers).
@@ -14,7 +14,7 @@ data_file = "data"          # Name of the data input file.
 def num_rovers():
     with open(data_file, "r") as fdname:
         nrov = len(fdname.readlines())
-        if nrov % 2 != 1:
+        if nrov % 2 != 1:                   # 1 line of grid dimensions and 2 lines for every rover
             raise Exception("Number of lines Wrong")
         else:
             return int((nrov - 1)/2)
@@ -29,28 +29,16 @@ class Plateau:
         self.ymax = ymaxplateau
 
 
-# Rotating left function.
-def rotate_left(ori):
-    if ori == 'N':
-        return 'W'
-    elif ori == 'W':
-        return 'S'
-    elif ori == 'S':
-        return 'E'
-    elif ori == 'E':
-        return 'N'
-
-
-# Rotating Right function.
-def rotate_right(ori):
-    if ori == 'N':
-        return 'E'
-    elif ori == 'W':
-        return 'N'
-    elif ori == 'S':
-        return 'W'
-    elif ori == 'E':
-        return 'S'
+#Rotate function
+def rotate(ori, direction):
+    v = ["N", "E", "S", "W"]    #Cardinal points in clockwise direction
+    index_act = v.index(ori)    #Obtaining actual orientation position in v list
+    if direction == "R":        #Right rotation
+        index_act += 1          
+    elif direction == "L":      #Left rotation
+        index_act -= 1
+    ori = v[index_act % 4]
+    return ori
 
 
 # Advance 1 square function.
@@ -78,23 +66,23 @@ def move(x, y, ori, plateau):
 def solution(rovers):
     actual_rover = 0
 
-    with open("data", "r") as fname:            # Open the file and save the first line (Plateau size).
+    with open(data_file, "r") as fname:            # Open the file and save the first line (Plateau size).
         xmax, ymax = fname.readline().rstrip().split()
         plateau = Plateau(int(xmax), int(ymax))     # It is necessary to ensure that the rover does not go off the grid.
 
         while actual_rover < rovers:             # Loop to analyze the movement of the rover
             x, y, orientation = fname.readline().rstrip().split()   # Initial Position
+            orientation = orientation.upper()     # if orientation is in lower case convert to upper case
             x = int(x)
             y = int(y)
             rover_instruction = fname.readline().rstrip()           # Commands
 
-            for command in rover_instruction:    # For every letter of rover instruction string...
+            for command in rover_instruction:       # For every letter of rover instruction string...
+                command = command.upper()           # if command is in lower case convert to upper case
                 if command == "M":
                     x, y = move(x, y, orientation, plateau)     # M -> move
-                elif command == "L":
-                    orientation = rotate_left(orientation)      # L -> Rotate Left
-                elif command == "R":
-                    orientation = rotate_right(orientation)     # R -> Rotate Right
+                elif command == "L" or command == "R":
+                    orientation = rotate(orientation,command)      # R or L -> Rotate Function
                 else:
                     raise Exception("Not valid rover instruction")  # If wrong letter
 
