@@ -1,0 +1,47 @@
+Information about Coding Problem Solution
+
+David Romero Puyal
+davidrompuy99@gmail.com
+679034125
+
+Python version: 3.9.10 
+
+Information about Solution_Final.py
+Solution_Final reads a txt data file with information about plateau size, rovers orientations and rovers instructions, and
+print the final orientation and coordinates about every rover in a txt solution file.
+    1st. Read the data file input txt with the information.
+        1st Line = Plateu xmax and ymax (Integer Integer). 
+        2nd Line = rover1 orientation (Integer Integer Caracter)
+        3rd Line = rover1 instructions (String)
+        .....
+        (2 lines for each rover)
+        The solution make sure that the plateu size are integers, the instructions are only R, M or L.
+        and the lines of data input file are correct.
+    2nd. Calculate number of rovers.
+        Depending on data input txt file length. 
+        The solution make sure that the lines of data input file are correct.
+    3rd. Calculate the final position and orientation of each rover and save it in a txt solution file.
+        This is made sequentially: Once the position and orienteation of rover 1 is calculated and saved, 
+        the program starts with rover 2.
+    The program contemplates:
+        Plateau coordinates are integers.
+        Instructions only are M (Move) R (Rotate Right) L (Rotate Left).
+        The rover does not pass the limits of plateau.
+        How many rovers are (1 line of plateau side + 2 lines per rover)
+        The rovers instructions and orientations can be in lower case.
+
+Information about Tests.py
+    Using unittest, it is verified that the program works correctly in some critical conditions.
+    There are 7 tests:
+        1st. Rotate Left.
+        2nd. Rotate Right.
+        3rd and 4th. Move rover.
+        5th. Calculate the number of rovers.
+        6th and 7th. Using another input data file (Problems/data1 and Problems/data2), calculate the final positions
+                     of the rovers, save them in another solution file (Problems/solution1 and Problems/solution2) and 
+                     compare the solution files with the expected solution files. (Problems/expectedsolution1 and 
+                     Problems/expectedsolution2)
+        
+
+
+            

@@ -11,13 +11,13 @@ data_file = "data"          # Name of the data input file.
 
 
 # Function for calculate the number of rovers.
-def num_rovers():
-    with open(data_file, "r") as fdname:
+def num_rovers(data_name):
+    with open(data_name, 'r') as fdname:
         nrov = len(fdname.readlines())
-        if nrov % 2 != 1:                   # 1 line of grid dimensions and 2 lines for every rover
-            raise Exception("Number of lines Wrong")
-        else:
-            return int((nrov - 1)/2)
+    if nrov % 2 != 1:                   # 1 line of grid dimensions and 2 lines for every rover
+        raise Exception("Number of lines Wrong")
+    else:
+       return int((nrov - 1)/2)
 
 
 # Plateu class to save the limits of plateau grid.
@@ -63,12 +63,17 @@ def move(x, y, ori, plateau):
 
 
 # Calculate the final position of each rover.
-def solution(rovers):
+def solution(rovers, data_name, solution_name):
     actual_rover = 0
 
-    with open(data_file, "r") as fname:            # Open the file and save the first line (Plateau size).
+    with open(data_name, 'r') as fname:            # Open the file and save the first line (Plateau size).
+        
         xmax, ymax = fname.readline().rstrip().split()
-        plateau = Plateau(int(xmax), int(ymax))     # It is necessary to ensure that the rover does not go off the grid.
+        try:
+            plateau = Plateau(int(xmax), int(ymax))     # It is necessary to ensure that the rover does not go off the grid.
+        except:
+            raise Exception("Wrong Plateau Size")
+        
 
         while actual_rover < rovers:             # Loop to analyze the movement of the rover
             x, y, orientation = fname.readline().rstrip().split()   # Initial Position
@@ -79,21 +84,21 @@ def solution(rovers):
 
             for command in rover_instruction:       # For every letter of rover instruction string...
                 command = command.upper()           # if command is in lower case convert to upper case
-                if command == "M":
+                if command == 'M':
                     x, y = move(x, y, orientation, plateau)     # M -> move
-                elif command == "L" or command == "R":
+                elif command == 'L' or command == 'R':
                     orientation = rotate(orientation,command)      # R or L -> Rotate Function
                 else:
                     raise Exception("Not valid rover instruction")  # If wrong letter
 
-            with open(solution_file, 'a') as fsol:  # Store in the solution file the final coordinates and orientation.
+            with open(solution_name, 'a') as fsol:  # Store in the solution file the final coordinates and orientation.
                 fsol.write("%s %s %s\n" % (x, y, orientation))
 
             actual_rover = actual_rover + 1
 
 
 if __name__ == "__main__":
-    nrovers = num_rovers()   # Obtain number of rovers.
-    with open(solution_file, "w") as fsname:
+    nrovers = num_rovers("data")   # Obtain number of rovers.
+    with open(solution_file, 'w') as fsname:
         fsname.write('OUTPUT\n')
-    solution(nrovers)
+    solution(nrovers, data_file, solution_file)
