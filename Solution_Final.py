@@ -46,19 +46,19 @@ def move(x, y, ori, plateau):
     if ori == 'N':
         y += 1
         if y > plateau.ymax:
-            raise Exception("Rovert Outside Plateau North Direction")
+            raise Exception("Rover Outside Plateau North Direction")
     elif ori == 'E':
         x += 1
         if x > plateau.xmax:
-            raise Exception("Rovert Outside Plateau Est Direction")
+            raise Exception("Rover Outside Plateau Est Direction")
     elif ori == 'S':
         y -= 1
         if y < plateau.ymin:
-            raise Exception("Rovert Outside Plateau South Direction")
+            raise Exception("Rover Outside Plateau South Direction")
     elif ori == 'W':
         x -= 1
         if x < plateau.xmin:
-            raise Exception("Rovert Outside Plateau West Direction")
+            raise Exception("Rover Outside Plateau West Direction")
     return x, y
 
 
